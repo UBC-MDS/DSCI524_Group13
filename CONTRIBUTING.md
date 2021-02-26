@@ -1,5 +1,4 @@
 # Contributing
-<hr>
 
 Welcome all the contributors! Please share your input, feedback, and
 contributions related to this project via
