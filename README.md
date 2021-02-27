@@ -46,7 +46,7 @@ We welcome and recognize all contributions. You can see a list of current contri
 ### Development Team
 | Name  | GitHub ID |
 | ----- | ----- |
-| Anita Lee | [AnitaLi-0371](https://github.com/AnitaLi-0371) |
+| Anita Li | [AnitaLi-0371](https://github.com/AnitaLi-0371) |
 | Elanor Boyle-Stanley | [eboylestanley](https://github.com/eboylestanley) |
 | Ivy Zhang | [ssyayayy](https://github.com/ssyayayy) |
 | Junghoo Kim | [jkim222383](https://github.com/jkim222383) |
