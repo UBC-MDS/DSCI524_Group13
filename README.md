@@ -1,6 +1,6 @@
 # coRPysprofiling 
 
-![](https://github.com/eboylestanley/corpysprofiling/workflows/build/badge.svg) [![codecov](https://codecov.io/gh/eboylestanley/corpysprofiling/branch/main/graph/badge.svg)](https://codecov.io/gh/eboylestanley/corpysprofiling) ![Release](https://github.com/eboylestanley/corpysprofiling/workflows/Release/badge.svg) [![Documentation Status](https://readthedocs.org/projects/corpysprofiling/badge/?version=latest)](https://corpysprofiling.readthedocs.io/en/latest/?badge=latest)
+![](https://github.com/UBC-MDS/DSCI524_Grp13_coRPysprofiling/workflows/build/badge.svg) [![codecov](https://codecov.io/gh/eboylestanley/corpysprofiling/branch/main/graph/badge.svg)](https://codecov.io/gh/eboylestanley/corpysprofiling) ![Release](https://github.com/UBC-MDS/DSCI524_Grp13_coRPysprofiling/workflows/Release/badge.svg) [![Documentation Status](https://readthedocs.org/projects/corpysprofiling/badge/?version=latest)](https://corpysprofiling.readthedocs.io/en/latest/?badge=latest)
 
 Package  for EDA and EDV on text
 
@@ -41,7 +41,15 @@ The official documentation is hosted on Read the Docs: https://corpysprofiling.r
 
 ## Contributors
 
-We welcome and recognize all contributions. You can see a list of current contributors in the [contributors tab](https://github.com/eboylestanley/corpysprofiling/graphs/contributors).
+We welcome and recognize all contributions. You can see a list of current contributors in the [contributors tab](https://github.com/UBC-MDS/DSCI524_Grp13_coRPysprofiling/graphs/contributors).
+
+### Development Team
+| Name  | GitHub ID |
+| ----- | ----- |
+| Anita Lee | [AnitaLi-0371](https://github.com/AnitaLi-0371) |
+| Elanor Boyle-Stanley | [eboylestanley](https://github.com/eboylestanley) |
+| Ivy Zhang | [ssyayayy](https://github.com/ssyayayy) |
+| Junghoo Kim | [jkim222383](https://github.com/jkim222383) |
 
 ### Credits
 
