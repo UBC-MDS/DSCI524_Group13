@@ -26,8 +26,8 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = u'coRPysprofiling'
-copyright = u"2021, Elanor Boyle-Stanley"
-author = u"Elanor Boyle-Stanley"
+copyright = u"2021, Group13 DSCI524"
+author = u"Group13 DSCI524"
 
 # -- General configuration ---------------------------------------------
 
@@ -128,7 +128,7 @@ latex_elements = {
 latex_documents = [
     (master_doc, 'corpysprofiling.tex',
      u'coRPysprofiling Documentation',
-     u'Elanor Boyle-Stanley', 'manual'),
+     u'Group13 DSCI524', 'manual'),
 ]
 
 
