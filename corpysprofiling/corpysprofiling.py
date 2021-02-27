@@ -41,6 +41,7 @@ def corpus_analysis(corpus):
     >>> corpysprofiling.corpus_analysis([2, 3, 4])
     TypeError: Input must be a string
     """
+    return
 
 def corpus_viz(corpus, stats):
     """
