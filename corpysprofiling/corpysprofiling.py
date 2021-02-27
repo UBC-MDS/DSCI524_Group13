@@ -46,6 +46,37 @@ def corpus_viz(corpus):
     return
 
 def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
+    """
+    Calculate similarity score between two corpora.  The closer the score is to zero, the more similar the corpora are. 
+
+    Parameters
+    ----------
+    corpus1 : str
+        A str representing a corpus
+    corpus2 : list of str
+        A str representing a corpus
+    metric : str, optional
+        metric used to determine corpora similarity (default: "cosine_similarity")
+
+    Returns
+    -------
+    float
+        Similarity score 
+
+    Raises
+    -------
+    TypeError
+        If argument passed is of wrong type
+
+    Examples
+    --------
+    >>> from corpysprofiling import corpysprofiling
+    >>> corpysprofiling.corpora_compare("My friend loves cats so much, she is obsessed!", "My friend adores all animals equally.")
+    0.09288773
+    >>> corpysprofiling.corpora_compare([2, 3, 4], [2, 3, 4])
+    TypeError: Input must be a string
+    """
+
     return
 
 def corpora_best_match(refDoc, corpora, metric="cosine_similarity"):
