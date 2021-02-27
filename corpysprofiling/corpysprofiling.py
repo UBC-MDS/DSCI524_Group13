@@ -42,7 +42,35 @@ def corpus_analysis(corpus):
     TypeError: Input must be a string
     """
 
-def corpus_viz(corpus):
+def corpus_viz(corpus, stats):
+    """
+    Generate visualizations for the key statistics on the input corpus
+
+    Parameters
+    ----------
+    corpus : str
+        A str representing a corpus
+    stats : str
+        A str representing the interested aspect to the corpus such as words within the documents or topic_analysis; The parameter can take values such as 'words', 'topic', and etc.
+    
+    Returns
+    -------
+    Chart object
+        To present a visualization for words summary or topic summary
+
+    Raises
+    -------
+    TypeError
+        If argument passed is of wrong type
+
+    Examples
+    --------
+    >>> from corpysprofiling import corpysprofiling
+    >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?", 'words')
+    >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?", 'topic')
+    >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?", 15)
+    TypeError: Input must be a string
+    """
     return
 
 def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
