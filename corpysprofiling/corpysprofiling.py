@@ -1,4 +1,47 @@
 import pandas as pd
+import nltk
+nltk.download('stopwords')
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.corpus import stopwords
+
+#TODO: gensim.downloader only needed if we need pretrained word embedding
+import gensim.downloader as api
+
+DEFAULT_PUNCTUATIONS = set('!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~')
+DEFAULT_STOPWORDS = set(stopwords.words("english")).union(DEFAULT_PUNCTUATIONS)
+
+def clean_tokens(corpus, ignore=DEFAULT_STOPWORDS):
+    """
+    Helper function to remove punctuations, tokenize words, and remove stopwords from corpus
+
+    Parameters
+    ----------
+    corpus : str
+        A str representing a corpus
+    
+    ignore : set of str, optional
+        stopwords to ignore (default: nltk.corpus.stopwords.words("english") for list of common English words and punctuations)
+
+    Returns
+    -------
+    list of str
+        List of clean word tokens
+
+    Raises
+    -------
+    TypeError
+        If argument passed is of wrong type
+
+    Examples
+    --------
+    >>> from corpysprofiling import corpysprofiling
+    >>> corpysprofiling.clean_tokens("How many species of animals are there in Russia?")
+    ["How", many", "species", "animals", "Russia"]      
+    """
+    all_tokens = word_tokenize(corpus)
+    # Remove stopwords
+    clean_tokens = [t for t in all_tokens if t not in set(ignore)]
+    return clean_tokens
 
 def corpus_analysis(corpus):
     """
@@ -149,5 +192,8 @@ def corpora_best_match(refDoc, corpora, metric="cosine_similarity"):
     >>> corpysprofiling.corpora_best_match(None, None, metric="cosine_similarity")
     TypeError: unsupported operand type(s) for 'corpora_best_match': 'NoneType' and 'NoneType'
     """
+
+    pretrained = api.load("glove-twitter-25")
+    
 
     return
