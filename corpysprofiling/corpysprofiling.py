@@ -38,7 +38,9 @@ def clean_tokens(corpus, ignore=DEFAULT_STOPWORDS):
     --------
     >>> from corpysprofiling import corpysprofiling
     >>> corpysprofiling.clean_tokens("How many species of animals are there in Russia?")
-    ["How", many", "species", "animals", "Russia"]      
+    ["How", many", "species", "animals", "Russia"] 
+    >>> corpysprofiling.clean_tokens("How many species of animals are there in Russia?", ignore=set('!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'))
+    ["How", many", "species", "of", "animals", "are", "there", "in", "Russia"]      
     """
     all_tokens = word_tokenize(corpus)
     # Remove stopwords
@@ -205,7 +207,12 @@ def corpora_best_match(refDoc, corpora, metric="cosine_similarity"):
     TypeError: unsupported operand type(s) for 'corpora_best_match': 'NoneType' and 'NoneType'
     """
 
-    pretrained = api.load("glove-twitter-25")
-    
-
-    return
+    # Naive implementation
+    try:
+        dist_df = pd.DataFrame(
+            ([corpus, corpora_compare(refDoc, corpus, metric=metric)] for corpus in corpora),
+            columns = ["corpora", "metric"]
+        )
+    except TypeError as error:
+        raise TypeError("TypeError raised while calling corpora_compare:\n" + error)
+    return dist_df.sort_values(by="metric")
