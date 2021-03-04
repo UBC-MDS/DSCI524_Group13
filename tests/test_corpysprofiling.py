@@ -9,17 +9,17 @@ def test_version():
 
 def test_corpora_compare():
     """ Test corpora_compare function"""
-    corpus1 = "Test1"
-    corpus2 = "Test1"
+    corpus1 = "kitten meows"
+    corpus2 = "kitten meows"
 
-    # test output type is float
-    assert (isinstance(corpysprofiling.corpora_compare(corpus1, corpus2, metric="cosine_similarity"), np.float64) == True)
+    testCase1 = corpysprofiling.corpora_compare(corpus1, corpus2, metric="cosine_similarity")
+    testCase2 = corpysprofiling.corpora_compare(corpus1, corpus2, metric="euclidean")
 
-    # test identical corpora return a score of 0.0 - cosine_similarity
-    assert (corpysprofiling.corpora_compare(corpus1, corpus2, metric="cosine_similarity") == 0.0)
-
-    # test identical corpora return a score of 0.0 - euclidean
-    assert (corpysprofiling.corpora_compare(corpus1, corpus2, metric="euclidean") == 0.0)
+    assert isinstance(testCase1, np.float64), "Return type is not np.float"
+    assert np.isclose(testCase1, 0.0, atol=1e-06), "Identical corpora should return score of 0.0"
+    assert np.isclose(testCase2, 0.0, atol=1e-06), "Identical corpora should return score of 0.0"
+    assert (testCase1 >= 0), "Distances should be between 0 and 1 inclusive for cosine_similarity"
+    assert (testCase1 <= 1), "Distances should be between 0 and 1 inclusive for cosine_similarity"
 
 def test_corpora_best_match():
     """ Test corpora_best_match function"""

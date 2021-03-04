@@ -162,7 +162,8 @@ def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
     if metric == "euclidean":
         score = np.linalg.norm(emb1-emb2)
     
-    return score
+    # Return absolute value to avoid small negative value due to rounding 
+    return np.abs(score)
 
 def corpora_best_match(refDoc, corpora, metric="cosine_similarity"):
     """
