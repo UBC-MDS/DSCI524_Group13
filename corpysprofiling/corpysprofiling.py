@@ -1,8 +1,10 @@
 import pandas as pd
+import numpy as np
 import nltk
 nltk.download('stopwords')
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
+from sentence_transformers import SentenceTransformer
 
 #TODO: gensim.downloader only needed if we need pretrained word embedding
 import gensim.downloader as api
@@ -148,8 +150,18 @@ def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
     >>> corpysprofiling.corpora_compare([2, 3, 4], [2, 3, 4])
     TypeError: Input must be a string
     """
+    embedder = SentenceTransformer("paraphrase-distilroberta-base-v1")
+    emb1 = embedder.encode(corpus1)
+    emb2 = embedder.encode(corpus2)
 
-    return
+    if metric == "cosine_similarity":
+        score = 1 - (np.dot(emb1, emb2) / (np.linalg.norm(emb1) * np.linalg.norm(emb2)))
+    
+
+    if metric == "euclidean":
+        score = np.sqrt(np.sum(emb1 - emb2)**2)
+    
+    return score
 
 def corpora_best_match(refDoc, corpora, metric="cosine_similarity"):
     """
