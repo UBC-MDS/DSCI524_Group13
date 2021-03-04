@@ -209,9 +209,9 @@ def corpora_best_match(refDoc, corpora, metric="cosine_similarity"):
     # Naive implementation
     try:
         dist_df = pd.DataFrame(
-            [corpus, corpora_compare(refDoc, corpus, metric=metric)] for corpus in corpora
+            ([corpus, corpora_compare(refDoc, corpus, metric=metric)] for corpus in corpora),
+            columns = ["corpora", "metric"]
         )
-    except ValueError as error:
-        raise ValueError("Value error raised whiel calling corpora_compare:\n" + error)
-    dist_df.columns = ["corpora", "metric"]
+    except TypeError as error:
+        raise TypeError("TypeError raised while calling corpora_compare:\n" + error)
     return dist_df.sort_values(by="metric")
