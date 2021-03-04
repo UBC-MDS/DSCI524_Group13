@@ -7,6 +7,10 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
+pandas = "^1.2.3"
+nltk = "^3.5"
+sentence-transformers = "^0.4.1"
+gensim = "^3.8.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.2"
