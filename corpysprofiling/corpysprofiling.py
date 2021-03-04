@@ -150,16 +150,15 @@ def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
     >>> corpysprofiling.corpora_compare([2, 3, 4], [2, 3, 4])
     TypeError: Input must be a string
     """
-    embedder = SentenceTransformer("paraphrase-distilroberta-base-v1")
+    embedder=SentenceTransformer("paraphrase-distilroberta-base-v1")
     emb1 = embedder.encode(corpus1)
     emb2 = embedder.encode(corpus2)
 
     if metric == "cosine_similarity":
-        score = 1 - (np.dot(emb1, emb2) / (np.linalg.norm(emb1) * np.linalg.norm(emb2)))
+        score = 1-(np.dot(emb1, emb2)/(np.linalg.norm(emb1)*np.linalg.norm(emb2)))
     
-
     if metric == "euclidean":
-        score = np.sqrt(np.sum(emb1 - emb2)**2)
+        score = np.linalg.norm(emb1-emb2)
     
     return score
 
