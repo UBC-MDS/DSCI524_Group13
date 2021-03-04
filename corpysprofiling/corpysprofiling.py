@@ -207,8 +207,11 @@ def corpora_best_match(refDoc, corpora, metric="cosine_similarity"):
     """
 
     # Naive implementation
-    dist_df = pd.DataFrame(
-        [corpus, corpora_compare(refDoc, corpus, metric=metric)] for corpus in corpora
-    )
+    try:
+        dist_df = pd.DataFrame(
+            [corpus, corpora_compare(refDoc, corpus, metric=metric)] for corpus in corpora
+        )
+    except ValueError as error:
+        raise ValueError("Value error raised whiel calling corpora_compare:\n" + error)
     dist_df.columns = ["corpora", "metric"]
     return dist_df.sort_values(by="metric")
