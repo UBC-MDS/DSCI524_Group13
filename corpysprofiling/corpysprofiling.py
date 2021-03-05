@@ -5,6 +5,8 @@ nltk.download('stopwords')
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from sentence_transformers import SentenceTransformer
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
 
 #TODO: gensim.downloader only needed if we need pretrained word embedding
 import gensim.downloader as api
@@ -90,21 +92,22 @@ def corpus_analysis(corpus):
     """
     return
 
-def corpus_viz(corpus, stats):
+def corpus_viz(corpus, display=True):
     """
-    Generate visualizations for the key statistics on the input corpus
+    Generate visualizations for words from the input corpus
 
     Parameters
     ----------
     corpus : str
         A str representing a corpus
-    stats : str
-        A str representing the interested aspect to the corpus such as words within the documents or topic_analysis; The parameter can take values such as 'words', 'topic', and etc.
+    display: boolean (optional)
+        If display is False, the plots will be hidden from the output
     
     Returns
     -------
-    Chart object
-        To present a visualization for words summary or topic summary
+    dictionary
+        contains a wordcloud.WordCloud, which can be used to present a word cloud,
+        and a data frame, which can be used to draw a bar chart for words and word lengths
 
     Raises
     -------
@@ -114,12 +117,46 @@ def corpus_viz(corpus, stats):
     Examples
     --------
     >>> from corpysprofiling import corpysprofiling
-    >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?", 'words')
-    >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?", 'topic')
+    >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")
+    >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")['word cloud']
+    >>> plt.figure()
+    >>> plt.imshow(wordcloud, interpolation="bilinear")
+    >>> plt.axis("off")
+    >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")['df used for bar']
+    >>> df.plot.bar(rot=0, x='words')
+    >>> plt.xticks(rotation=90)
+    >>> plt.xlabel("Words")
     >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?", 15)
     TypeError: Input must be a string
     """
-    return
+    # Step 1. To get a word cloud
+    wordcloud = WordCloud().generate(corpus.lower())
+    plt.figure()
+    plt.imshow(wordcloud, interpolation="bilinear")
+    plt.axis("off")
+    
+    # Step 2. To get a bar chart to visualize the words and the length of words
+    # To get a list of words from the input text
+    clean_corpus = clean_tokens(corpus)
+    # To get a data frame summary of the words and length of the words
+    df = pd.DataFrame({'corpus': clean_corpus})
+    df = pd.DataFrame(df['corpus'].value_counts())
+    df.reset_index(level=0, inplace=True)
+    df = df.rename(columns={'index': 'words', 'corpus': 'length'})
+    # To limit the number of words to display in the plot
+    if len(df) < 30:
+        df = df
+    else: df = df.head(30)
+    # To make a bar chart
+    df.plot.bar(rot=0, x='words')
+    plt.xticks(rotation=90)
+    plt.xlabel("Words")
+    
+    if display==False:
+        plt.close()
+        plt.close(1)
+    
+    return {'word cloud': wordcloud, 'df used for bar': df}
 
 def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
     """
