@@ -92,7 +92,7 @@ def corpus_analysis(corpus):
     """
     return
 
-def corpus_viz(corpus):
+def corpus_viz(corpus, display=True):
     """
     Generate visualizations for words from the input corpus
 
@@ -100,6 +100,8 @@ def corpus_viz(corpus):
     ----------
     corpus : str
         A str representing a corpus
+    display: boolean (optional)
+        If display is False, the plots will be hidden from the output
     
     Returns
     -------
@@ -149,6 +151,10 @@ def corpus_viz(corpus):
     df.plot.bar(rot=0, x='words')
     plt.xticks(rotation=90)
     plt.xlabel("Words")
+    
+    if display==False:
+        plt.close()
+        plt.close(1)
     
     return {'word cloud': wordcloud, 'df used for bar': df}
 
