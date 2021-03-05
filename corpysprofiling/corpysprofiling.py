@@ -92,7 +92,7 @@ def corpus_analysis(corpus):
     """
     return
 
-def corpus_viz(corpus, display=True):
+def corpus_viz(corpus):
     """
     Generate visualizations for words from the input corpus
 
@@ -100,63 +100,56 @@ def corpus_viz(corpus, display=True):
     ----------
     corpus : str
         A str representing a corpus
-    display: boolean (optional)
-        If display is False, the plots will be hidden from the output
     
     Returns
     -------
     dictionary
-        contains a wordcloud.WordCloud, which can be used to present a word cloud,
-        and a data frame, which can be used to draw a bar chart for words and word lengths
-
-    Raises
-    -------
-    TypeError
-        If argument passed is of wrong type
+        contains a word cloud, a data frame, which can be used to draw a bar chart for words and word lengths, 
+        and the bar chart
 
     Examples
     --------
     >>> from corpysprofiling import corpysprofiling
     >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")
     >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")['word cloud']
-    >>> plt.figure()
-    >>> plt.imshow(wordcloud, interpolation="bilinear")
-    >>> plt.axis("off")
     >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")['df used for bar']
-    >>> df.plot.bar(rot=0, x='words')
-    >>> plt.xticks(rotation=90)
-    >>> plt.xlabel("Words")
-    >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?", 15)
-    TypeError: Input must be a string
+    >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")['word length bar chart']
+
     """
     # Step 1. To get a word cloud
     wordcloud = WordCloud().generate(corpus.lower())
-    plt.figure()
+    wordcloud_fig = plt.figure()
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
+    plt.close(1)
     
     # Step 2. To get a bar chart to visualize the words and the length of words
+    
     # To get a list of words from the input text
     clean_corpus = clean_tokens(corpus)
+    
     # To get a data frame summary of the words and length of the words
     df = pd.DataFrame({'corpus': clean_corpus})
     df = pd.DataFrame(df['corpus'].value_counts())
     df.reset_index(level=0, inplace=True)
     df = df.rename(columns={'index': 'words', 'corpus': 'length'})
+    
     # To limit the number of words to display in the plot
     if len(df) < 30:
         df = df
     else: df = df.head(30)
+        
     # To make a bar chart
-    df.plot.bar(rot=0, x='words')
+    bar_fig = plt.figure()
+    plt.bar(x=df['words'], height = df['length'])
     plt.xticks(rotation=90)
-    plt.xlabel("Words")
+    plt.xlabel('Words')
+    plt.title('Length for the Most Common Words')
+    plt.close(1)
     
-    if display==False:
-        plt.close()
-        plt.close(1)
-    
-    return {'word cloud': wordcloud, 'df used for bar': df}
+    return {'word cloud': wordcloud_fig, 
+            'df used for bar': df, 
+            "word length bar chart":bar_fig}
 
 def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
     """
