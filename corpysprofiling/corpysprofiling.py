@@ -5,6 +5,8 @@ nltk.download('stopwords')
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from sentence_transformers import SentenceTransformer
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
 
 #TODO: gensim.downloader only needed if we need pretrained word embedding
 import gensim.downloader as api
