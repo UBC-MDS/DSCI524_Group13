@@ -136,7 +136,10 @@ def corpus_viz(corpus):
     df_length = df.sort_values(by="length").head(30)
         
     # To make a bar chart
-    bar_fig = plt.figure()
+    bar_length = (alt.Chart(df_length).encode(
+        x=alt.X("length", bin=True, title="Word Length"), 
+        y=alt.Y("count()", title="Frequency")).mark_bar()
+    .properties(title="Frequency of Words by Length"))
     plt.bar(x=df['words'], height = df['length'])
     plt.xticks(rotation=90)
     plt.xlabel('Words')
