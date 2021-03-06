@@ -104,7 +104,7 @@ def corpus_viz(corpus):
     Returns
     -------
     dictionary
-        contains a word cloud, a data frame, which can be used to draw a bar chart for words and word lengths, 
+        contains a word cloud, a histogram of word length frequencies, and a histogram of word frequencies 
         and the bar chart
 
     Examples
