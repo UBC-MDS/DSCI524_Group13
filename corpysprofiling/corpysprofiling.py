@@ -132,7 +132,8 @@ def corpus_viz(corpus):
     df["length"] = df['word'].str.len()
     
     # To limit the number of words to display in the plot
-    else: df = df.head(30)
+    # Select top 30 longest words to display
+    df_length = df.sort_values(by="length").head(30)
         
     # To make a bar chart
     bar_fig = plt.figure()
