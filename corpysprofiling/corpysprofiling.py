@@ -205,8 +205,8 @@ def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
         A str representing a corpus
     corpus2 : list of str
         A str representing a corpus
-    metric : str, optional
-        metric used to determine corpora similarity (default: "cosine_similarity")
+    metric : {'cosine_simiarity', 'euclidean'}, default 'cosine_simiarlty'
+        metric used to determine corpora similarity
 
     Returns
     -------
@@ -222,7 +222,7 @@ def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
     --------
     >>> from corpysprofiling import corpysprofiling
     >>> corpysprofiling.corpora_compare("My friend loves cats so much, she is obsessed!", "My friend adores all animals equally.")
-    0.09288773
+    0.3874828815460205
     >>> corpysprofiling.corpora_compare([2, 3, 4], [2, 3, 4])
     TypeError: Input must be a string
     """
