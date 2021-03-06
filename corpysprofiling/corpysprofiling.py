@@ -105,7 +105,6 @@ def corpus_viz(corpus):
     -------
     dictionary
         contains a word cloud, a histogram of word length frequencies, and a histogram of word frequencies 
-        and the bar chart
 
     Examples
     --------
