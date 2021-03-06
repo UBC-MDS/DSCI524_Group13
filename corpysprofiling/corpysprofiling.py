@@ -140,7 +140,6 @@ def corpus_viz(corpus):
         x=alt.X("length", bin=True, title="Word Length"), 
         y=alt.Y("count()", title="Frequency")).mark_bar()
     .properties(title="Frequency of Words by Length"))
-    plt.close(1)
     
     return {'word cloud': wordcloud_fig, 
             'df used for bar': df, 
