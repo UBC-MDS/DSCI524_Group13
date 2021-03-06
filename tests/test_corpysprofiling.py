@@ -16,7 +16,7 @@ def test_corpus_viz():
     corpus2 = "Let's assume that this unsupervised model is used to assist human experts to identify fraud transaction. So instead of making humans examine all 284,807 transactions for fraud transactions, this model would extract transactions which look suspicious and pass them to humans for examination. So our goal is to come up with a list of transactions which look suspicious.We said before that PCA won't be able to capture characteristic features of fraud transactions because they are like outliers (occur very rarely) in our dataset, and so the reconstruction error would be higher for them compared to non-fraud transactions. But what do we mean by high reconstruction error? What should be threshold which makes a transaction suspicious?"
 
     # Test whether the corpus_viz returns a dictionary
-    assert isinstance(corpus_viz(corpus1), dict), "Return type is not a dict"
+    assert isinstance(corpysprofiling.corpus_viz(corpus1), dict), "Return type is not a dict"
 
     # Test whether user can access the data frame used to plot the bar chart
     assert isinstance(corpus_viz(corpus1)['df used for bar'], pd.DataFrame), "Return type is not a data frame"
