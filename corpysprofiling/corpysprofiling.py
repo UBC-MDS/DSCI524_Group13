@@ -7,6 +7,7 @@ from nltk.corpus import stopwords
 from sentence_transformers import SentenceTransformer
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+import altair as alt
 
 #TODO: gensim.downloader only needed if we need pretrained word embedding
 import gensim.downloader as api
@@ -99,6 +100,7 @@ def corpus_analysis(corpus):
     >>> corpysprofiling.corpus_analysis([2, 3, 4])
     TypeError: Input must be a string
     """
+    
     # create empty dictionary to store outputs
     analysis_dict = {}
     
@@ -141,8 +143,7 @@ def corpus_viz(corpus):
     Returns
     -------
     dictionary
-        contains a word cloud, a data frame, which can be used to draw a bar chart for words and word lengths, 
-        and the bar chart
+        contains a word cloud, a histogram of word length frequencies, and a histogram of word frequencies 
 
     Examples
     --------
@@ -163,30 +164,36 @@ def corpus_viz(corpus):
     # Step 2. To get a bar chart to visualize the words and the length of words
     
     # To get a list of words from the input text
-    clean_corpus = clean_tokens(corpus)
+    clean_corpus = clean_tokens(corpus.lower())
     
     # To get a data frame summary of the words and length of the words
-    df = pd.DataFrame({'corpus': clean_corpus})
-    df = pd.DataFrame(df['corpus'].value_counts())
-    df.reset_index(level=0, inplace=True)
-    df = df.rename(columns={'index': 'words', 'corpus': 'length'})
+    df = pd.DataFrame({'word': clean_corpus})
+    df["length"] = df['word'].str.len()
     
     # To limit the number of words to display in the plot
-    if len(df) < 30:
-        df = df
-    else: df = df.head(30)
+    # Select top 30 longest words to display
+    df_length = df.sort_values(by="length").head(30)
         
     # To make a bar chart
-    bar_fig = plt.figure()
-    plt.bar(x=df['words'], height = df['length'])
-    plt.xticks(rotation=90)
-    plt.xlabel('Words')
-    plt.title('Length for the Most Common Words')
-    plt.close(1)
-    
+    bar_length = (alt.Chart(df_length).encode(
+        x=alt.X("length", bin=True, title="Word Length"), 
+        y=alt.Y("count()", title="Frequency")).mark_bar()
+    .properties(title="Frequency of Words by Length"))
+    bar_freq = (alt.Chart(df).transform_aggregate(
+        count='count()',
+        groupby=["word"]
+    ).transform_window(
+        rank='rank(count)',
+        sort=[alt.SortField('count', order='descending')]
+    ).transform_filter(
+        alt.datum.rank <= 30
+    ).mark_bar().encode(
+        x=alt.X('word:N', sort='-y', title="Word"),
+        y=alt.Y('count:Q', title="Frequency")
+    ).properties(title="Frequency of Words")
     return {'word cloud': wordcloud_fig, 
-            'df used for bar': df, 
-            "word length bar chart":bar_fig}
+            "word freq bar chart": bar_freq, 
+            "word length bar chart":bar_length}
 
 def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
     """
@@ -198,8 +205,8 @@ def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
         A str representing a corpus
     corpus2 : list of str
         A str representing a corpus
-    metric : str, optional
-        metric used to determine corpora similarity (default: "cosine_similarity")
+    metric : {'cosine_simiarity', 'euclidean'}, default 'cosine_simiarlty'
+        metric used to determine corpora similarity
 
     Returns
     -------
@@ -215,10 +222,16 @@ def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
     --------
     >>> from corpysprofiling import corpysprofiling
     >>> corpysprofiling.corpora_compare("My friend loves cats so much, she is obsessed!", "My friend adores all animals equally.")
-    0.09288773
+    0.3874828815460205
     >>> corpysprofiling.corpora_compare([2, 3, 4], [2, 3, 4])
     TypeError: Input must be a string
     """
+    if not isinstance(corpus1, str) or not isinstance(corpus2, str):
+        raise TypeError("Inputs must be a string")
+
+    if not metric in ["euclidean", "cosine_similarity"]:
+        raise ValueError("metric must be cosine_similarity or euclidean")    
+
     embedder=SentenceTransformer("paraphrase-distilroberta-base-v1")
     emb1 = embedder.encode(corpus1)
     emb2 = embedder.encode(corpus2)
