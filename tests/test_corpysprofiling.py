@@ -19,7 +19,7 @@ def test_corpus_viz():
     assert isinstance(corpysprofiling.corpus_viz(corpus1), dict), "Return type is not a dict"
 
     # Test whether user can access the data frame used to plot the bar chart
-    assert isinstance(corpus_viz(corpus1)['df used for bar'], pd.DataFrame), "Return type is not a data frame"
+    assert isinstance(corpysprofiling.corpus_viz(corpus1)['word length bar chart'], alt.Chart), "Return type is not an altair Chart"
 
     # Test whether user can access the word cloud 
     assert isinstance(corpus_viz(corpus2)['word cloud'], plt.Figure), "Return type is not a word cloud"
