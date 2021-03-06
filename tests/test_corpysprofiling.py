@@ -15,19 +15,35 @@ def test_corpus_viz():
     corpus1 = "How many species of animals are there in Russia?"
     corpus2 = "Let's assume that this unsupervised model is used to assist human experts to identify fraud transaction. So instead of making humans examine all 284,807 transactions for fraud transactions, this model would extract transactions which look suspicious and pass them to humans for examination. So our goal is to come up with a list of transactions which look suspicious.We said before that PCA won't be able to capture characteristic features of fraud transactions because they are like outliers (occur very rarely) in our dataset, and so the reconstruction error would be higher for them compared to non-fraud transactions. But what do we mean by high reconstruction error? What should be threshold which makes a transaction suspicious?"
 
+    testCase1 = corpysprofiling.corpus_viz(corpus1)
+    testCase2 = corpysprofiling.corpus_viz(corpus2)
+
     # Test whether the corpus_viz returns a dictionary
-    assert isinstance(corpysprofiling.corpus_viz(corpus1), dict), "Return type is not a dict"
+    assert isinstance(testCase1, dict), "Return type is not a dict"
+    assert isinstance(testCase2, dict), "Return type is not a dict"
 
-    # Test whether user can access the data frame used to plot the bar chart
-    assert isinstance(corpysprofiling.corpus_viz(corpus1)['word length bar chart'], alt.Chart), "Return type is not an altair Chart"
+    # Tests for the length bar chart
+    assert isinstance(testCase1['word length bar chart'], alt.Chart), "Return type is not an altair Chart"
+    assert testCase1['word length bar chart'].encoding.x.shorthand == "length"
+    assert testCase1['word length bar chart'].encoding.y.shorthand== "count()"
+    assert isinstance(testCase2['word length bar chart'], alt.Chart), "Return type is not an altair Chart"
+    assert testCase2['word length bar chart'].encoding.x.shorthand == "length"
+    assert testCase2['word length bar chart'].encoding.y.shorthand == "count()"
 
-    # Test whether user can access the word cloud 
+    # Tests for the word cloud 
+    assert isinstance(corpysprofiling.corpus_viz(corpus1)['word cloud'], plt.Figure), "Return type is not a word cloud"
     assert isinstance(corpysprofiling.corpus_viz(corpus2)['word cloud'], plt.Figure), "Return type is not a word cloud"
 
-    # Test whether if else statement works - the function should only consider the top 30 most frequently used words
-        assert isinstance(corpysprofiling.corpus_viz(corpus1)['word freq bar chart'], alt.Chart), "Word frequency histogram is not an altair Chart"
-        assert corpysprofiling.corpus_viz(corpus1)['word freq bar chart'].data.shape[0] == 5, "Number of words does not match number of unique tokens in corpus."
-    assert corpysprofiling.corpus_viz(corpus2)['word freq bar chart'].data.shape[0] <= 30, "Too many words"
+    # Tests for the frequency bar chart
+    assert isinstance(corpysprofiling.corpus_viz(corpus1)['word freq bar chart'], alt.Chart), "Word frequency histogram is not an altair Chart"
+    assert testCase1['word freq bar chart'].data.word.unique().shape[0] == 4, "Number of words does not match number of unique tokens in corpus."
+    assert testCase1['word freq bar chart'].encoding.x.shorthand == "word"
+    assert testCase1['word freq bar chart'].encoding.y.shorthand== "count()"
+    assert isinstance(corpysprofiling.corpus_viz(corpus2)['word freq bar chart'], alt.Chart), "Word frequency histogram is not an altair Chart"   
+    assert testCase2['word freq bar chart'].data.word.unique().shape[0] <= 30, "Too many words"
+    assert testCase2['word freq bar chart'].encoding.x.shorthand == "word"
+    assert testCase2['word freq bar chart'].encoding.y.shorthand== "count()"
+
 
     
 def test_corpora_compare():
@@ -113,4 +129,11 @@ def test_corpora_best_match():
         # TypeError raised as expected
         pass
 
+    try:
+        corpysprofiling.corpora_best_match(refDoc, corpora, metric="other")
+        # ValueError not raised
+        assert False, "ValueError not raied. corpora_best_match should not accept NoneType inputs"
+    except ValueError:
+        # ValueError raised as expected
+        pass
     

@@ -170,27 +170,25 @@ def corpus_viz(corpus):
     df = pd.DataFrame({'word': clean_corpus})
     df["length"] = df['word'].str.len()
     
+    df_length = df.sort_values(by="length", ascending=False).head(30)
+
+    df_freq = df.value_counts().reset_index().rename(columns = {0 :  "freq"})
     # To limit the number of words to display in the plot
-    # Select top 30 longest words to display
-    df_length = df.sort_values(by="length").head(30)
-        
+    # Select top 30 most frequent words to display
+    df_freq = df_freq.sort_values(by="freq", ascending=False).head(30)
+    df_freq = df_freq.reindex(df_freq.index.repeat(df_freq["freq"])).reset_index()[["word"]]
+
     # To make a bar chart
     bar_length = (alt.Chart(df_length).encode(
         x=alt.X("length", bin=True, title="Word Length"), 
         y=alt.Y("count()", title="Frequency")).mark_bar()
     .properties(title="Frequency of Words by Length"))
-    bar_freq = (alt.Chart(df).transform_aggregate(
-        count='count()',
-        groupby=["word"]
-    ).transform_window(
-        rank='rank(count)',
-        sort=[alt.SortField('count', order='descending')]
-    ).transform_filter(
-        alt.datum.rank <= 30
-    ).mark_bar().encode(
-        x=alt.X('word:N', sort='-y', title="Word"),
-        y=alt.Y('count:Q', title="Frequency")
-    ).properties(title="Frequency of Words")
+    
+    bar_freq = (alt.Chart(df_freq).encode(
+        x=alt.X('word', sort='-y', title="Word"),
+        y=alt.Y('count()', title="Frequency")).mark_bar()
+    .properties(title="Frequency of Words"))
+    
     return {'word cloud': wordcloud_fig, 
             "word freq bar chart": bar_freq, 
             "word length bar chart":bar_length}
@@ -294,5 +292,7 @@ def corpora_best_match(refDoc, corpora, metric="cosine_similarity"):
             columns = ["corpora", "metric"]
         )
     except TypeError as error:
-        raise TypeError("TypeError raised while calling corpora_compare:\n" + error)
+        raise TypeError("TypeError raised while calling corpora_compare:\n" + str(error))
+    except ValueError as error:
+        raise ValueError("ValueError raised while calling corpora_compare:\n" + str(error))
     return dist_df.sort_values(by="metric")
