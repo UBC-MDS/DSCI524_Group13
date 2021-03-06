@@ -226,6 +226,12 @@ def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
     >>> corpysprofiling.corpora_compare([2, 3, 4], [2, 3, 4])
     TypeError: Input must be a string
     """
+    if not isinstance(corpus1, str) or not isinstance(corpus2, str):
+        raise TypeError("Inputs must be a string")
+
+    if not metric in ["euclidean", "cosine_similarity"]:
+        raise ValueError("metric must be cosine_similarity or euclidean")    
+
     embedder=SentenceTransformer("paraphrase-distilroberta-base-v1")
     emb1 = embedder.encode(corpus1)
     emb2 = embedder.encode(corpus2)
