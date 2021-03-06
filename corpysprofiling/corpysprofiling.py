@@ -104,7 +104,7 @@ def corpus_analysis(corpus):
     
     # statistics on words and tokens
     token = clean_tokens(text, ignore=DEFAULT_PUNCTUATIONS)
-    df_clean = clean_tokens(text)
+    token_clean = clean_tokens(text)
     token_len = [len(t) for t in df_clean]
 
     analysis_dict['word_total'] = len(df)
