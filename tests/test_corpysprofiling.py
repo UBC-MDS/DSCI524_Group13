@@ -2,9 +2,6 @@ from corpysprofiling import __version__
 from corpysprofiling import corpysprofiling
 import numpy as np
 import pandas as pd
-import nltk
-nltk.download('stopwords')
-from nltk.corpus import stopwords
 from collections import Counter
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
@@ -13,7 +10,6 @@ def test_version():
     assert __version__ == '0.1.0'
 
 DEFAULT_PUNCTUATIONS = set('!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~')
-DEFAULT_STOPWORDS = set(stopwords.words("english")).union(DEFAULT_PUNCTUATIONS)
 
 def test_clean_tokens():
     corpus = "How many species of animals are there in Russia?"
