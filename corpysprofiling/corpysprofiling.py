@@ -91,7 +91,7 @@ def corpus_analysis(corpus):
     TypeError: Input must be a string
     """
     return
-
+import altair as alt
 def corpus_viz(corpus):
     """
     Generate visualizations for words from the input corpus
