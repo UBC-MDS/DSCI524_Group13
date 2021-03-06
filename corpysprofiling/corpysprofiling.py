@@ -125,7 +125,7 @@ def corpus_viz(corpus):
     # Step 2. To get a bar chart to visualize the words and the length of words
     
     # To get a list of words from the input text
-    clean_corpus = clean_tokens(corpus)
+    clean_corpus = clean_tokens(corpus.lower())
     
     # To get a data frame summary of the words and length of the words
     df = pd.DataFrame({'corpus': clean_corpus})
