@@ -5,7 +5,7 @@ import pandas as pd
 from collections import Counter
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
-
+import altair as alt
 def test_version():
     assert __version__ == '0.1.0'
 
