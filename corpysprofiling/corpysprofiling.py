@@ -128,7 +128,7 @@ def corpus_viz(corpus):
     clean_corpus = clean_tokens(corpus.lower())
     
     # To get a data frame summary of the words and length of the words
-    df = pd.DataFrame({'corpus': clean_corpus})
+    df = pd.DataFrame({'word': clean_corpus})
     df = pd.DataFrame(df['corpus'].value_counts())
     df.reset_index(level=0, inplace=True)
     df = df.rename(columns={'index': 'words', 'corpus': 'length'})
