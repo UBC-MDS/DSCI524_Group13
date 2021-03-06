@@ -103,7 +103,7 @@ def corpus_analysis(corpus):
     analysis_dict = {}
     
     # statistics on words and tokens
-    df = clean_tokens(text, ignore=DEFAULT_PUNCTUATIONS)
+    token = clean_tokens(text, ignore=DEFAULT_PUNCTUATIONS)
     df_clean = clean_tokens(text)
     token_len = [len(t) for t in df_clean]
 
@@ -291,4 +291,3 @@ def corpora_best_match(refDoc, corpora, metric="cosine_similarity"):
     except TypeError as error:
         raise TypeError("TypeError raised while calling corpora_compare:\n" + error)
     return dist_df.sort_values(by="metric")
-
