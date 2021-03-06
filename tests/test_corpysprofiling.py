@@ -22,7 +22,7 @@ def test_corpus_viz():
     assert isinstance(corpysprofiling.corpus_viz(corpus1)['word length bar chart'], alt.Chart), "Return type is not an altair Chart"
 
     # Test whether user can access the word cloud 
-    assert isinstance(corpus_viz(corpus2)['word cloud'], plt.Figure), "Return type is not a word cloud"
+    assert isinstance(corpysprofiling.corpus_viz(corpus2)['word cloud'], plt.Figure), "Return type is not a word cloud"
 
     # Test whether if else statement works - the function should only consider the top 30 most frequently used words
     assert corpus_viz(corpus1)['df used for bar'].shape[0] == 5, "Too many or too few words"
