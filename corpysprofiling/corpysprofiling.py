@@ -7,6 +7,7 @@ from nltk.corpus import stopwords
 from sentence_transformers import SentenceTransformer
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+import altair as alt
 
 #TODO: gensim.downloader only needed if we need pretrained word embedding
 import gensim.downloader as api
@@ -63,11 +64,12 @@ def corpus_analysis(corpus):
     -------
     pandas.DataFrame
         Summary statistics of the corpus will be generated:
-            word_total: The number of total words in the corpus
-            word_unique: The number of unique words in the corpus
-            avg_wd_len: The average length of words
-            avg_sens_len: The average length of sentences
-            topic_analysis: Related topics of the corpus
+            word_total: The number of total words after removing punctuations from the corpus 
+            token_total: The number of total tokens after removing stopwords from the corpus
+            token_unique: The number of unique tokens in the corpus
+            token_avg_len: The average length of total tokens in the corpus
+            sent_count: The number of sentences in the corpus
+            sens_avg_token: The average number of tokens of all sentencense
 
 
     Raises
@@ -78,20 +80,57 @@ def corpus_analysis(corpus):
     Examples
     --------
     >>> from corpysprofiling import corpysprofiling
-    >>> corpysprofiling.corpus_analysis("How many species of animals are there in Russia?")
-    
-    word_total       9
-    word_unique      9
-    avg_wd_len       4
-    avg_sens_len     1
-    topic_analysis   ["animal", "country"]
+    >>> text = "How many species of animals are there in Russia? and how many in US?"
+    >>> corpysprofiling.corpus_analysis(text)
+                    value
+    word_total       14.0
+    token_total       7.0
+    token_unique      6.0
+    token_avg_len     4.7
+    sent_count        2.0
+    sens_avg_token    3.5
 
+    {'word_total': 14,
+     'token_total': 7,
+     'token_unique': 6,
+     'token_avg_len': 4.7,
+     'sent_count': 2,
+     'sens_avg_token': 3.5}
 
     >>> corpysprofiling.corpus_analysis([2, 3, 4])
     TypeError: Input must be a string
     """
-    return
-import altair as alt
+    
+    # create empty dictionary to store outputs
+    analysis_dict = {}
+    
+    # statistics on words and tokens
+    token = clean_tokens(text, ignore=DEFAULT_PUNCTUATIONS)
+    token_clean = clean_tokens(text)
+    token_len = [len(t) for t in token_clean]
+
+    analysis_dict['word_total'] = len(token)
+    analysis_dict['token_total'] = len(token_clean)
+    analysis_dict['token_unique'] = len(set(token_clean))
+    analysis_dict['token_avg_len'] = round(np.mean(token_len),1)
+
+    # statistics on sentences of the corpus
+    sents = sent_tokenize(text)
+    sents_tokenize = [clean_tokens(sent) for sent in sents]
+    sens_avg_token = [len(sent) for sent in sents_tokenize]
+
+    analysis_dict['sent_count'] = len(sents)
+    analysis_dict['sens_avg_token'] = round(np.mean(sens_avg_token),1)
+    
+    # organize distionary into pandas dataframe
+    output_df = pd.DataFrame.from_dict(analysis_dict, orient = 'index', columns = ['value'])
+    
+    # print output as dataframe 
+    
+    # return dictionary of statitics
+    return output_df
+
+
 def corpus_viz(corpus):
     """
     Generate visualizations for words from the input corpus
