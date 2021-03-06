@@ -140,7 +140,18 @@ def corpus_viz(corpus):
         x=alt.X("length", bin=True, title="Word Length"), 
         y=alt.Y("count()", title="Frequency")).mark_bar()
     .properties(title="Frequency of Words by Length"))
-    
+    bar_freq = (alt.Chart(df).transform_aggregate(
+        count='count()',
+        groupby=["word"]
+    ).transform_window(
+        rank='rank(count)',
+        sort=[alt.SortField('count', order='descending')]
+    ).transform_filter(
+        alt.datum.rank <= 30
+    ).mark_bar().encode(
+        x=alt.X('word:N', sort='-y', title="Word"),
+        y=alt.Y('count:Q', title="Frequency")
+    ).properties(title="Frequency of Words")
     return {'word cloud': wordcloud_fig, 
             'df used for bar': df, 
             "word length bar chart":bar_fig}
