@@ -105,11 +105,11 @@ def corpus_analysis(corpus):
     # statistics on words and tokens
     token = clean_tokens(text, ignore=DEFAULT_PUNCTUATIONS)
     token_clean = clean_tokens(text)
-    token_len = [len(t) for t in df_clean]
+    token_len = [len(t) for t in token_clean]
 
-    analysis_dict['word_total'] = len(df)
-    analysis_dict['token_total'] = len(df_clean)
-    analysis_dict['token_unique'] = len(set(df_clean))
+    analysis_dict['word_total'] = len(token)
+    analysis_dict['token_total'] = len(token_clean)
+    analysis_dict['token_unique'] = len(set(token_clean))
     analysis_dict['token_avg_len'] = round(np.mean(token_len),1)
 
     # statistics on sentences of the corpus
@@ -124,10 +124,9 @@ def corpus_analysis(corpus):
     output_df = pd.DataFrame.from_dict(analysis_dict, orient = 'index', columns = ['value'])
     
     # print output as dataframe 
-    print(output_df)
     
     # return dictionary of statitics
-    return analysis_dict
+    return output_df
 
 
 def corpus_viz(corpus, display=True):
