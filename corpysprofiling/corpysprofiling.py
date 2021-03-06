@@ -9,9 +9,6 @@ import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 import altair as alt
 
-#TODO: gensim.downloader only needed if we need pretrained word embedding
-import gensim.downloader as api
-
 DEFAULT_PUNCTUATIONS = set('!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~')
 DEFAULT_STOPWORDS = set(stopwords.words("english")).union(DEFAULT_PUNCTUATIONS)
 
@@ -41,11 +38,13 @@ def clean_tokens(corpus, ignore=DEFAULT_STOPWORDS):
     --------
     >>> from corpysprofiling import corpysprofiling
     >>> corpysprofiling.clean_tokens("How many species of animals are there in Russia?")
-    ["How", many", "species", "animals", "Russia"] 
+    ["many", "species", "animals", "russia"] 
     >>> corpysprofiling.clean_tokens("How many species of animals are there in Russia?", ignore=set('!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'))
-    ["How", many", "species", "of", "animals", "are", "there", "in", "Russia"]      
+    ["how", "many", "species", "of", "animals", "are", "there", "in", "russia"]      
     """
-    all_tokens = word_tokenize(corpus)
+    if type(corpus) != str:
+        raise TypeError("Input must be a string")
+    all_tokens = word_tokenize(corpus.lower())
     # Remove stopwords
     clean_tokens = [t for t in all_tokens if t not in set(ignore)]
     return clean_tokens
@@ -84,18 +83,18 @@ def corpus_analysis(corpus):
     >>> corpysprofiling.corpus_analysis(text)
                     value
     word_total       14.0
-    token_total       7.0
-    token_unique      6.0
-    token_avg_len     4.7
+    token_total       6.0
+    token_unique      5.0
+    token_avg_len     5.0
     sent_count        2.0
-    sens_avg_token    3.5
+    sens_avg_token    3.0
 
     >>> corpysprofiling.corpus_analysis([2, 3, 4])
     TypeError: Input must be a string
     """
     
     if not isinstance(corpus, str):
-        raise TypeError("Inputs must be a string")
+        raise TypeError("Input must be a string")
 
     # create empty dictionary to store outputs
     analysis_dict = {}
@@ -144,10 +143,13 @@ def corpus_viz(corpus):
     >>> from corpysprofiling import corpysprofiling
     >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")
     >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")['word cloud']
-    >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")['df used for bar']
+    >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")['word freq bar chart']
     >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")['word length bar chart']
 
     """
+    if not isinstance(corpus, str):
+        raise TypeError("Input must be a string")
+
     # Step 1. To get a word cloud
     wordcloud = WordCloud().generate(corpus.lower())
     wordcloud_fig = plt.figure()
@@ -216,7 +218,7 @@ def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
     >>> corpysprofiling.corpora_compare("My friend loves cats so much, she is obsessed!", "My friend adores all animals equally.")
     0.3874828815460205
     >>> corpysprofiling.corpora_compare([2, 3, 4], [2, 3, 4])
-    TypeError: Input must be a string
+    TypeError: Inputs must be a string
     """
     if not isinstance(corpus1, str) or not isinstance(corpus2, str):
         raise TypeError("Inputs must be a string")
@@ -264,19 +266,25 @@ def corpora_best_match(refDoc, corpora, metric="cosine_similarity"):
     Examples
     --------
     >>> from corpysprofiling import corpysprofiling
-    # TODO: modify the toy examples with correct outputs after the function is implemented
     >>> corpysprofiling.corpora_best_match("kitten meows", ["ice cream is yummy", "cat meowed", "dog barks", "The Hitchhiker's Guide to the Galaxy has become an international multi-media phenomenon"])
                                                 corpora  metric
-    0                                         cat meowed     0.5
-    1                                          dog barks     1.0
-    2                                 ice cream is yummy    10.0
-    3  The Hitchhiker's Guide to the Galaxy has becom...    42.0
+    0                                         cat meowed     0.534642
+    1                                          dog barks     0.725425
+    2  The Hitchhiker's Guide to the Galaxy has becom...     0.888661
+    3                                 ice cream is yummy     0.915435
+    >>> corpysprofiling.corpora_best_match("kitten meows", ["ice cream is yummy", "cat meowed", "dog barks", "The Hitchhiker's Guide to the Galaxy has become an international multi-media phenomenon"], metric="euclidean")
+                                                corpora  metric
+    0                                         cat meowed     9.335772
+    1                                          dog barks    10.302269
+    2  The Hitchhiker's Guide to the Galaxy has becom...    11.293064
+    3                                 ice cream is yummy    11.397785
     >>> corpysprofiling.corpora_best_match("kitten meows", [], metric="cosine_similarity")
     Empty DataFrame
     Columns: [corpora, metric]
     Index: []
     >>> corpysprofiling.corpora_best_match(None, None, metric="cosine_similarity")
-    TypeError: unsupported operand type(s) for 'corpora_best_match': 'NoneType' and 'NoneType'
+    TypeError: TypeError raised while calling corpora_compare:
+    'NoneType' object is not iterable
     """
 
     # Naive implementation
