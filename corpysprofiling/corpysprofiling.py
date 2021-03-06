@@ -154,7 +154,7 @@ def corpus_viz(corpus):
     ).properties(title="Frequency of Words")
     return {'word cloud': wordcloud_fig, 
             "word freq bar chart": bar_freq, 
-            "word length bar chart":bar_fig}
+            "word length bar chart":bar_length}
 
 def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
     """
