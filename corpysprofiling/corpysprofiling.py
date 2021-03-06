@@ -7,6 +7,7 @@ from nltk.corpus import stopwords
 from sentence_transformers import SentenceTransformer
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+import altair as alt
 
 #TODO: gensim.downloader only needed if we need pretrained word embedding
 import gensim.downloader as api
@@ -99,6 +100,7 @@ def corpus_analysis(corpus):
     >>> corpysprofiling.corpus_analysis([2, 3, 4])
     TypeError: Input must be a string
     """
+    
     # create empty dictionary to store outputs
     analysis_dict = {}
     
@@ -129,7 +131,7 @@ def corpus_analysis(corpus):
     return output_df
 
 
-def corpus_viz(corpus, display=True):
+def corpus_viz(corpus):
     """
     Generate visualizations for words from the input corpus
 
@@ -137,63 +139,61 @@ def corpus_viz(corpus, display=True):
     ----------
     corpus : str
         A str representing a corpus
-    display: boolean (optional)
-        If display is False, the plots will be hidden from the output
     
     Returns
     -------
     dictionary
-        contains a wordcloud.WordCloud, which can be used to present a word cloud,
-        and a data frame, which can be used to draw a bar chart for words and word lengths
-
-    Raises
-    -------
-    TypeError
-        If argument passed is of wrong type
+        contains a word cloud, a histogram of word length frequencies, and a histogram of word frequencies 
 
     Examples
     --------
     >>> from corpysprofiling import corpysprofiling
     >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")
     >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")['word cloud']
-    >>> plt.figure()
-    >>> plt.imshow(wordcloud, interpolation="bilinear")
-    >>> plt.axis("off")
     >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")['df used for bar']
-    >>> df.plot.bar(rot=0, x='words')
-    >>> plt.xticks(rotation=90)
-    >>> plt.xlabel("Words")
-    >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?", 15)
-    TypeError: Input must be a string
+    >>> corpysprofiling.corpus_viz("How many species of animals are there in Russia?")['word length bar chart']
+
     """
     # Step 1. To get a word cloud
     wordcloud = WordCloud().generate(corpus.lower())
-    plt.figure()
+    wordcloud_fig = plt.figure()
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
+    plt.close(1)
     
     # Step 2. To get a bar chart to visualize the words and the length of words
+    
     # To get a list of words from the input text
-    clean_corpus = clean_tokens(corpus)
+    clean_corpus = clean_tokens(corpus.lower())
+    
     # To get a data frame summary of the words and length of the words
-    df = pd.DataFrame({'corpus': clean_corpus})
-    df = pd.DataFrame(df['corpus'].value_counts())
-    df.reset_index(level=0, inplace=True)
-    df = df.rename(columns={'index': 'words', 'corpus': 'length'})
+    df = pd.DataFrame({'word': clean_corpus})
+    df["length"] = df['word'].str.len()
+    
     # To limit the number of words to display in the plot
-    if len(df) < 30:
-        df = df
-    else: df = df.head(30)
+    # Select top 30 longest words to display
+    df_length = df.sort_values(by="length").head(30)
+        
     # To make a bar chart
-    df.plot.bar(rot=0, x='words')
-    plt.xticks(rotation=90)
-    plt.xlabel("Words")
-    
-    if display==False:
-        plt.close()
-        plt.close(1)
-    
-    return {'word cloud': wordcloud, 'df used for bar': df}
+    bar_length = (alt.Chart(df_length).encode(
+        x=alt.X("length", bin=True, title="Word Length"), 
+        y=alt.Y("count()", title="Frequency")).mark_bar()
+    .properties(title="Frequency of Words by Length"))
+    bar_freq = (alt.Chart(df).transform_aggregate(
+        count='count()',
+        groupby=["word"]
+    ).transform_window(
+        rank='rank(count)',
+        sort=[alt.SortField('count', order='descending')]
+    ).transform_filter(
+        alt.datum.rank <= 30
+    ).mark_bar().encode(
+        x=alt.X('word:N', sort='-y', title="Word"),
+        y=alt.Y('count:Q', title="Frequency")
+    ).properties(title="Frequency of Words")
+    return {'word cloud': wordcloud_fig, 
+            "word freq bar chart": bar_freq, 
+            "word length bar chart":bar_length}
 
 def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
     """
