@@ -90,23 +90,19 @@ def corpus_analysis(corpus):
     sent_count        2.0
     sens_avg_token    3.5
 
-    {'word_total': 14,
-     'token_total': 7,
-     'token_unique': 6,
-     'token_avg_len': 4.7,
-     'sent_count': 2,
-     'sens_avg_token': 3.5}
-
     >>> corpysprofiling.corpus_analysis([2, 3, 4])
     TypeError: Input must be a string
     """
     
+    if not isinstance(corpus, str):
+        raise TypeError("Inputs must be a string")
+
     # create empty dictionary to store outputs
     analysis_dict = {}
     
     # statistics on words and tokens
-    token = clean_tokens(text, ignore=DEFAULT_PUNCTUATIONS)
-    token_clean = clean_tokens(text)
+    token = clean_tokens(corpus, ignore=DEFAULT_PUNCTUATIONS)
+    token_clean = clean_tokens(corpus)
     token_len = [len(t) for t in token_clean]
 
     analysis_dict['word_total'] = len(token)
@@ -115,7 +111,7 @@ def corpus_analysis(corpus):
     analysis_dict['token_avg_len'] = round(np.mean(token_len),1)
 
     # statistics on sentences of the corpus
-    sents = sent_tokenize(text)
+    sents = sent_tokenize(corpus)
     sents_tokenize = [clean_tokens(sent) for sent in sents]
     sens_avg_token = [len(sent) for sent in sents_tokenize]
 
@@ -125,9 +121,7 @@ def corpus_analysis(corpus):
     # organize distionary into pandas dataframe
     output_df = pd.DataFrame.from_dict(analysis_dict, orient = 'index', columns = ['value'])
     
-    # print output as dataframe 
-    
-    # return dictionary of statitics
+    # return dataframe of statitics
     return output_df
 
 
@@ -296,3 +290,4 @@ def corpora_best_match(refDoc, corpora, metric="cosine_similarity"):
     except ValueError as error:
         raise ValueError("ValueError raised while calling corpora_compare:\n" + str(error))
     return dist_df.sort_values(by="metric")
+

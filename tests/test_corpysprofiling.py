@@ -9,6 +9,24 @@ import altair as alt
 def test_version():
     assert __version__ == '0.1.0'
 
+def test_corpus_analysis():
+    """ Test corpus_analysis function"""
+    
+    corpus = "How many species of animals are there in Russia? and how many in US?"
+
+    testCase1 = corpysprofiling.corpus_analysis(corpus)
+
+    assert isinstance(testCase1, pd.DataFrame), "Return type is not pd.DataFrame"
+    assert testCase1.shape == (6, 1), "Shape returned does not match output dataframe"
+    
+    try:
+        corpysprofiling.corpus_analysis(123)
+        # TypeError not raised
+        assert False, "TypeError not raised. corpus_analysis should not accept non-string inputs"
+    except TypeError:
+        # TypeError raised as expected
+        pass
+
 def test_corpus_viz():
     """ Test corpus_viz function"""
     
