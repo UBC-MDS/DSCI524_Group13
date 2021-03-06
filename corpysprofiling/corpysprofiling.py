@@ -132,7 +132,6 @@ def corpus_viz(corpus):
     df["length"] = df['word'].str.len()
     
     # To limit the number of words to display in the plot
-    if len(df) < 30:
         df = df
     else: df = df.head(30)
         
