@@ -140,7 +140,6 @@ def corpus_viz(corpus):
         x=alt.X("length", bin=True, title="Word Length"), 
         y=alt.Y("count()", title="Frequency")).mark_bar()
     .properties(title="Frequency of Words by Length"))
-    plt.bar(x=df['words'], height = df['length'])
     plt.xticks(rotation=90)
     plt.xlabel('Words')
     plt.title('Length for the Most Common Words')
