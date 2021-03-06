@@ -35,7 +35,7 @@ def test_corpora_compare():
     corpus1 = "kitten meows"
     corpus2 = "kitten meows"
 
-    testCase1 = corpysprofiling.corpora_compare(corpus1, corpus2, metric="cosine_similarity")
+    testCase1 = corpysprofiling.corpora_compare(corpus1, corpus2)
     testCase2 = corpysprofiling.corpora_compare(corpus1, corpus2, metric="euclidean")
 
     assert isinstance(testCase1, np.float64), "Return type is not np.float"
@@ -43,6 +43,36 @@ def test_corpora_compare():
     assert np.isclose(testCase2, 0.0, atol=1e-06), "Identical corpora should return score of 0.0"
     assert (testCase1 >= 0), "Distances should be between 0 and 1 inclusive for cosine_similarity"
     assert (testCase1 <= 1), "Distances should be between 0 and 1 inclusive for cosine_similarity"
+    assert (testCase2 >= 0), "Distances should be greater than 0 for euclidean"
+
+    try:
+        corpysprofiling.corpora_compare(corpus1, 123)
+        # TypeError not raised
+        assert False, "TypeError not raised. corpora_compare should not accept non-string inputs"
+    except TypeError:
+        # TypeError raised as expected
+        pass
+    try:
+        corpysprofiling.corpora_compare(123, corpus1)
+        # TypeError not raised
+        assert False, "TypeError not raised. corpora_compare should not accept non-string inputs"
+    except TypeError:
+        # TypeError raised as expected
+        pass
+    try:
+        corpysprofiling.corpora_compare(123, [1, 2, 3])
+        # TypeError not raised
+        assert False, "TypeError not raised. corpora_compare should not accept non-string inputs"
+    except TypeError:
+        # TypeError raised as expected
+        pass
+    try:
+        corpysprofiling.corpora_compare(corpus1, corpus2, metric="other")
+        # ValueError not raised
+        assert False, "ValueError not raised. metric must be cosine_similarity or euclidean"
+    except ValueError:
+        # ValueError raised as expected
+        pass
 
 def test_corpora_best_match():
     """ Test corpora_best_match function"""

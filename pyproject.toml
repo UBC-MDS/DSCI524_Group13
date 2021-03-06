@@ -12,6 +12,8 @@ nltk = "^3.5"
 sentence-transformers = "^0.4.1"
 gensim = "^3.8.3"
 numpy = "^1.20.1"
+matplotlib = "^3.3.4"
+wordcloud = "^1.8.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.2"
