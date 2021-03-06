@@ -2,6 +2,9 @@ from corpysprofiling import __version__
 from corpysprofiling import corpysprofiling
 import numpy as np
 import pandas as pd
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
 from collections import Counter
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
@@ -9,6 +12,30 @@ import altair as alt
 def test_version():
     assert __version__ == '0.1.0'
 
+DEFAULT_PUNCTUATIONS = set('!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~')
+DEFAULT_STOPWORDS = set(stopwords.words("english")).union(DEFAULT_PUNCTUATIONS)
+
+def test_clean_tokens():
+    corpus = "How many species of animals are there in Russia?"
+    
+    testCase1 = corpysprofiling.clean_tokens(corpus)
+    testCase2 = corpysprofiling.clean_tokens(corpus, ignore=DEFAULT_PUNCTUATIONS)
+
+    assert isinstance(testCase1, list), "Return type is not list"
+    assert all(isinstance(token, str) for token in testCase1), "Return type is not list of str"
+    assert testCase1 == ["many", "species", "animals", "russia"], "Output does not match expected result." 
+    assert isinstance(testCase2, list), "Return type is not list"
+    assert all(isinstance(token, str) for token in testCase2), "Return type is not list of str"
+    assert testCase2 == ["how", "many", "species", "of", "animals", "are", "there", "in", "russia"], "Output does not match expected result."
+
+    try:
+        corpysprofiling.clean_tokens(123)
+        # TypeError not raised
+        assert False, "TypeError not raised. corpus_analysis should not accept non-string inputs"
+    except TypeError:
+        # TypeError raised as expected
+        pass
+    
 def test_corpus_analysis():
     """ Test corpus_analysis function"""
     
@@ -62,7 +89,13 @@ def test_corpus_viz():
     assert testCase2['word freq bar chart'].encoding.x.shorthand == "word"
     assert testCase2['word freq bar chart'].encoding.y.shorthand== "count()"
 
-
+    try:
+        corpysprofiling.clean_tokens(123)
+        # TypeError not raised
+        assert False, "TypeError not raised. corpus_analysis should not accept non-string inputs"
+    except TypeError:
+        # TypeError raised as expected
+        pass
     
 def test_corpora_compare():
     """ Test corpora_compare function"""
