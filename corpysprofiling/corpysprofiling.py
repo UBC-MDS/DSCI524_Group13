@@ -153,7 +153,7 @@ def corpus_viz(corpus):
         y=alt.Y('count:Q', title="Frequency")
     ).properties(title="Frequency of Words")
     return {'word cloud': wordcloud_fig, 
-            'df used for bar': df, 
+            "word freq bar chart": bar_freq, 
             "word length bar chart":bar_fig}
 
 def corpora_compare(corpus1, corpus2, metric="cosine_similarity"):
