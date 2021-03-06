@@ -129,7 +129,7 @@ def corpus_viz(corpus):
     
     # To get a data frame summary of the words and length of the words
     df = pd.DataFrame({'word': clean_corpus})
-    df = pd.DataFrame(df['corpus'].value_counts())
+    df["length"] = df['word'].str.len()
     df.reset_index(level=0, inplace=True)
     df = df.rename(columns={'index': 'words', 'corpus': 'length'})
     
