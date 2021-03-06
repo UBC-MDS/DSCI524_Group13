@@ -27,7 +27,7 @@ def test_corpus_viz():
     # Test whether if else statement works - the function should only consider the top 30 most frequently used words
         assert isinstance(corpysprofiling.corpus_viz(corpus1)['word freq bar chart'], alt.Chart), "Word frequency histogram is not an altair Chart"
         assert corpysprofiling.corpus_viz(corpus1)['word freq bar chart'].data.shape[0] == 5, "Number of words does not match number of unique tokens in corpus."
-    assert corpus_viz(corpus2)['df used for bar'].shape[0] <= 30, "Too many words"
+    assert corpysprofiling.corpus_viz(corpus2)['word freq bar chart'].data.shape[0] <= 30, "Too many words"
 
     
 def test_corpora_compare():
