@@ -171,14 +171,15 @@ def corpus_viz(corpus):
     # To limit the number of words to display in the plot
     # Select top 30 most frequent words to display
     df_freq = df_freq.sort_values(by="freq", ascending=False).head(30)
-    df_freq = df_freq.reinde(df_freq.index.repeat(df_freq["freq"])).reset_index()[["index"]]
+    df_freq = df_freq.reindex(df_freq.index.repeat(df_freq["freq"])).reset_index()[["index"]]
 
-    # To make a bar chart for
+    # To make a bar chart for word length
     bar_length = (alt.Chart(df_length).encode(
         x=alt.X("length", bin=True, title="Word Length"), 
         y=alt.Y("count()", title="Frequency")).mark_bar()
     .properties(title="Frequency of Words by Length"))
     
+    # To make a bar chart for word frequency
     bar_freq = (alt.Chart(df_freq).encode(
         x=alt.X('index', sort='-y', title="Word"),
         y=alt.Y('count()', title="Frequency")).mark_bar()
