@@ -38,7 +38,28 @@ To our knowledge, while [`wordcloud`](https://pypi.org/project/wordcloud/) libra
 - altair = "^4.1.0"
 ## Usage
 
-- TODO
+The coRPysprofiling package can help you do some prelimiary EDA and EDV on text data.  As well as comparing corpora to determine similarity.
+
+Start with some input text:
+```
+
+```
+
+Use the corpus_analysis function to calculate some high level statistics on this text:
+```
+```
+
+Use the corpus_viz function to generate some visualization of these statsitics:
+```
+```
+
+Use the corpora_compare function to determine the similarity of two corpora:
+```
+```
+
+Use the corpora_best_match function to rank corpora against a reference document by similarity:
+```
+```
 
 ## Documentation
 
