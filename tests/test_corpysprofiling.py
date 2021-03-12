@@ -182,10 +182,10 @@ def test_corpora_compare():
     ), "Identical corpora should return score of 0.0"
     assert (
         testCase1 >= 0
-    ), "Distances should be between 0 and 1 inclusive for cosine_similarity"
+    ), "Distances should be between 0 and 2 inclusive for cosine_similarity"
     assert (
-        testCase1 <= 1
-    ), "Distances should be between 0 and 1 inclusive for cosine_similarity"
+        testCase1 <= 2
+    ), "Distances should be between 0 and 2 inclusive for cosine_similarity"
     assert testCase2 >= 0, "Distances should be greater than 0 for euclidean"
 
     try:
@@ -253,9 +253,9 @@ def test_corpora_best_match():
     # Make sure all distances are between 0 and 1, inclusive
     # (True for cosine_similarity)
     assert testCase1.metric.between(
-        0, 1
+        0, 2
     ).all(), (
-        "Distances should be between 0 and 1 inclusive for cosine_similarity"
+        "Distances should be between 0 and 2 inclusive for cosine_similarity"
     )
     # Make sure that distances are sorted in ascending order
     assert (
