@@ -1,6 +1,6 @@
 # coRPysprofiling 
 
-![](https://github.com/UBC-MDS/DSCI524_Grp13_coRPysprofiling/workflows/build/badge.svg) [![codecov](https://codecov.io/gh/eboylestanley/corpysprofiling/branch/main/graph/badge.svg)](https://codecov.io/gh/UBC-MDS/coRPysprofiling) [![Deploy](https://github.com/UBC-MDS/coRPysprofiling/actions/workflows/deploy.yml/badge.svg)](https://github.com/UBC-MDS/coRPysprofiling/actions/workflows/deploy.yml) [![Documentation Status](https://readthedocs.org/projects/corpysprofiling/badge/?version=latest)](https://corpysprofiling.readthedocs.io/en/latest/?badge=latest)
+![](https://github.com/UBC-MDS/DSCI524_Grp13_coRPysprofiling/workflows/build/badge.svg) [![codecov](https://codecov.io/gh/UBC-MDS/corpysprofiling/branch/main/graph/badge.svg)](https://codecov.io/gh/UBC-MDS/coRPysprofiling) [![Deploy](https://github.com/UBC-MDS/coRPysprofiling/actions/workflows/deploy.yml/badge.svg)](https://github.com/UBC-MDS/coRPysprofiling/actions/workflows/deploy.yml) [![Documentation Status](https://readthedocs.org/projects/corpysprofiling/badge/?version=latest)](https://corpysprofiling.readthedocs.io/en/latest/?badge=latest)
 
 Package  for EDA and EDV on text
 
