@@ -157,6 +157,17 @@ def test_corpus_viz():
         # TypeError raised as expected
         pass
 
+    try:
+        corpysprofiling.corpus_viz(123)
+        # TypeError not raised
+        assert (
+            False
+        ), "TypeError not raised. corpora_compare should not accept\
+            non-string inputs"
+    except TypeError:
+        # TypeError raised as expected
+        pass
+
 
 def test_corpora_compare():
     """ Test corpora_compare function"""
