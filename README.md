@@ -28,9 +28,14 @@ Some specific functions include:
 To our knowledge, while [`wordcloud`](https://pypi.org/project/wordcloud/) library generates wordcloud visualization for a given corpus, there is no general-purpose library for exploratory analysis and visualization of a text corpus in the Python ecosystem. There are several advanced libraries for comparing similarities between different corpora: most notably, [`gensim`](https://pypi.org/project/gensim/) provides similarity comparison between large corpora using word embeddings. We believe that coRPysprofiling will provide some useful functionality for exploratory analysis and visualization and help bridge the gap between elementary text analysis to more sophisticated approaches utilizing word embeddings.
 
 ## Dependencies
-
-- TODO
-
+- python = "^3.8"
+- pandas = "^1.2.3"
+- nltk = "^3.5"
+- sentence-transformers = "^0.4.1"
+- numpy = "^1.20.1"
+- matplotlib = "^3.3.4"
+- wordcloud = "^1.8.1"
+- altair = "^4.1.0"
 ## Usage
 
 - TODO
