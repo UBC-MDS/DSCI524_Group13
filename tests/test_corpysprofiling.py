@@ -1,14 +1,9 @@
-from corpysprofiling import __version__
 from corpysprofiling import corpysprofiling
 import numpy as np
 import pandas as pd
 from collections import Counter
 import matplotlib.pyplot as plt
 import altair as alt
-
-
-def test_version():
-    assert __version__ == "0.1.0"
 
 
 DEFAULT_PUNCTUATIONS = set("!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~")
@@ -157,6 +152,17 @@ def test_corpus_viz():
         assert (
             False
         ), "TypeError not raised. corpus_analysis should not accept\
+            non-string inputs"
+    except TypeError:
+        # TypeError raised as expected
+        pass
+
+    try:
+        corpysprofiling.corpus_viz(123)
+        # TypeError not raised
+        assert (
+            False
+        ), "TypeError not raised. corpora_compare should not accept\
             non-string inputs"
     except TypeError:
         # TypeError raised as expected
