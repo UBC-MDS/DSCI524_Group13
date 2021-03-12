@@ -138,17 +138,17 @@ def test_corpus_viz():
         corpysprofiling.corpus_viz(corpus1)["word freq bar chart"], alt.Chart
     ), "Word frequency histogram is not an altair Chart"
     assert (
-        testCase1["word freq bar chart"].data.word.unique().shape[0] == 4
+        testCase1["word freq bar chart"].data['index'].unique().shape[0] == 4
     ), "Number of words does not match number of unique tokens in corpus."
-    assert testCase1["word freq bar chart"].encoding.x.shorthand == "word"
+    assert testCase1["word freq bar chart"].encoding.x.shorthand == 'index'
     assert testCase1["word freq bar chart"].encoding.y.shorthand == "count()"
     assert isinstance(
         corpysprofiling.corpus_viz(corpus2)["word freq bar chart"], alt.Chart
     ), "Word frequency histogram is not an altair Chart"
     assert (
-        testCase2["word freq bar chart"].data.word.unique().shape[0] <= 30
+        testCase2["word freq bar chart"].data['index'].unique().shape[0] <= 30
     ), "Too many words"
-    assert testCase2["word freq bar chart"].encoding.x.shorthand == "word"
+    assert testCase2["word freq bar chart"].encoding.x.shorthand == 'index'
     assert testCase2["word freq bar chart"].encoding.y.shorthand == "count()"
 
     try:
