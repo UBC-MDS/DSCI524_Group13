@@ -34,8 +34,8 @@ def test_corpora_compare():
     assert isinstance(testCase1, np.float64), "Return type is not np.float"
     assert np.isclose(testCase1, 0.0, atol=1e-06), "Identical corpora should return score of 0.0"
     assert np.isclose(testCase2, 0.0, atol=1e-06), "Identical corpora should return score of 0.0"
-    assert (testCase1 >= 0), "Distances should be between 0 and 1 inclusive for cosine_similarity"
-    assert (testCase1 <= 1), "Distances should be between 0 and 1 inclusive for cosine_similarity"
+    assert (testCase1 >= 0), "Distances should be between 0 and 2 inclusive for cosine_similarity"
+    assert (testCase1 <= 2), "Distances should be between 0 and 2 inclusive for cosine_similarity"
     assert (testCase2 >= 0), "Distances should be greater than 0 for euclidean"
 
     try:
@@ -79,7 +79,7 @@ def test_corpora_best_match():
     assert Counter(testCase1.corpora.to_list()) == Counter(corpora), "Rows in the DataFrame returned do not match elements of corpora"
     assert testCase1.metric.dtype == np.float64, "Distances are not of type np.float64"
     # Make sure all distances are between 0 and 1, inclusive (True for cosine_similarity)
-    assert testCase1.metric.between(0, 1).all(), "Distances should be between 0 and 1 inclusive for cosine_similarity"
+    assert testCase1.metric.between(0, 2).all(), "Distances should be between 0 and 2 inclusive for cosine_similarity"
     # Make sure that distances are sorted in ascending order
     assert testCase1.metric.is_monotonic_increasing, "Distances should be sorted in ascending order"
 
