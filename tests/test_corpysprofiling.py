@@ -7,10 +7,6 @@ import matplotlib.pyplot as plt
 import altair as alt
 
 
-def test_version():
-    assert __version__ == "0.1.0"
-
-
 DEFAULT_PUNCTUATIONS = set("!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~")
 
 
