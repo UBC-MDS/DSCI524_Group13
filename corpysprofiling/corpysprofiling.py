@@ -9,6 +9,7 @@ import numpy as np
 import nltk
 
 nltk.download("stopwords")
+nltk.download("punkt")
 
 DEFAULT_PUNCTUATIONS = set("!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~")
 DEFAULT_STOPWORDS = set(stopwords.words("english")).union(DEFAULT_PUNCTUATIONS)
@@ -129,8 +130,7 @@ def corpus_analysis(corpus):
 
     # organize distionary into pandas dataframe
     output_df = pd.DataFrame.from_dict(
-        analysis_dict, orient="index", columns=["value"]
-    )
+        analysis_dict, orient="index", columns=["value"])
 
     # return dataframe of statitics
     return output_df
@@ -185,7 +185,8 @@ def corpus_viz(corpus):
 
     df_length = df.sort_values(by="length", ascending=False).head(30)
 
-    df_freq = df['word'].value_counts().reset_index().rename(columns={'word': "freq"})
+    df_freq = df["word"].value_counts().reset_index(
+    ).rename(columns={"word": "freq"})
     # To limit the number of words to display in the plot
     # Select top 30 most frequent words to display
     df_freq = df_freq.sort_values(by="freq", ascending=False).head(30)
