@@ -1,4 +1,3 @@
-from corpysprofiling import __version__
 from corpysprofiling import corpysprofiling
 import numpy as np
 import pandas as pd
