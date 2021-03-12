@@ -9,6 +9,7 @@ import numpy as np
 import nltk
 
 nltk.download("stopwords")
+nltk.download('punkt')
 
 DEFAULT_PUNCTUATIONS = set("!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~")
 DEFAULT_STOPWORDS = set(stopwords.words("english")).union(DEFAULT_PUNCTUATIONS)
