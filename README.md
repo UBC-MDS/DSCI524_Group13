@@ -58,7 +58,7 @@ We can also the corpus_viz function to generate three visualization of this corp
 visuals = corpus_viz(data_science_job)
 visuals["word cloud"]
 ```
-![](img/word_cloud.png)
+![](img/word_cloud2.png)
 
 ```python
 visuals["word freq bar chart"]
