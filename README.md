@@ -51,14 +51,14 @@ We can use the corpus_analysis function to calculate some high level statistics 
 ```python
 corpus_analysis(data_science_job)
 ```
-![](img/analysis_example.png)
+![image](https://user-images.githubusercontent.com/63200505/111031407-76d6e680-83d5-11eb-9278-949fb5edbb71.png)
 
 We can also the corpus_viz function to generate three visualization of this corpus.  To access the individual visualizations, index the visualization object by plot name.
 ```python
 visuals = corpus_viz(data_science_job)
 visuals["word cloud"]
 ```
-![](img/word_cloud2.png)
+![image](https://user-images.githubusercontent.com/63200505/111031462-ab4aa280-83d5-11eb-818b-2e24de576094.png)
 
 ```python
 visuals["word freq bar chart"]
@@ -124,7 +124,7 @@ mds = "Are you a creative problem solver with a love for data? UBC’s Master of
 
 corpora_best_match(mds, job_list)
 ```
-![](img/match_cosine.png)
+![image](https://user-images.githubusercontent.com/63200505/111031481-c5848080-83d5-11eb-80e9-71162c874384.png)
 
 As expected the data science job descriptions are considered most similar to the UBC MDS program description. 
 
@@ -132,7 +132,7 @@ We can also use the `euclidean` metric to calculate the similarity.
 ```python
 corpora_best_match(mds, job_list, metric = "euclidean")
 ```
-![](img/match_euclidean.png)
+![image](https://user-images.githubusercontent.com/63200505/111031491-ccab8e80-83d5-11eb-909c-9bce09bf9344.png)
 
 ## Documentation
 
