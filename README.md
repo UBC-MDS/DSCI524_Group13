@@ -43,12 +43,10 @@ The coRPysprofiling package can help you do some preliminary EDA and EDV on text
 ```python
 import corpysprofiling
 ```
-
 Lets start with some input text.  We are going to look at a data science job description to begin with.
 ```python
 data_science_job = "Apply statistical and machine learning knowledge to specific business problems and data. Develop initiatives to assist Engineering, Logistics, and Mechanical teams in a number of highly technical areas. Use data science techniques to find data patterns, anomalies, and optimization opportunities. Interpret, translate, and communicate analytical findings to business stakeholders. Tackle and solve complex analytical problems using quantitative approaches. Collaborate to implement data best practices through the Data Lab, Data Hub, and Data Lake teams. Work in an agile environment including regular meetings, sprints, Kanban, etc."
 ```
-
 We can use the corpus_analysis function to calculate some high level statistics on this text.  This will return a dataframe with the total number of words, total number of tokens, number of unique tokens, average token length, the number of sentences and the average number of tokens in all sentences.
 ```python
 corpus_analysis(data_science_job)
