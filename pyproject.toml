@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "corpysprofiling"
-version = "0.1.1"
+version = "0.1.2"
 description = "Package for EDA and EDV on text"
 authors = ["Elanor Boyle-Stanley <elanor.boyle.stanley@gmail.com>"]
 license = "MIT"
